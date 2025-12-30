@@ -7,6 +7,7 @@ class VideoAssembler:
         self.target_resolution = (1080, 1920) # Vertical 9:16
         # Using absolute path to ensure MoviePy/ImageMagick finds it
         self.font = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf" 
+        self.font_bold = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
     def assemble_video_from_timeline(self, timeline: list, media_paths: list, audio_data: list, output_path: str):
         """
@@ -33,62 +34,83 @@ class VideoAssembler:
             visual_clip = None
             if media_path and os.path.exists(media_path):
                 if media_path.endswith(('.jpg', '.jpeg', '.png')):
-                    visual_clip = ImageClip(media_path).with_duration(duration)
-                    visual_clip = visual_clip.with_effects([vfx.Resize(new_size=self.target_resolution)]) 
-                elif media_path.endswith(('.mp4', '.mov')):
-                    visual_clip = VideoFileClip(media_path)
-                    if visual_clip.duration < duration:
-                        visual_clip = visual_clip.with_effects([vfx.Loop(duration=duration)])
+                    original_clip = ImageClip(media_path).with_duration(duration)
+                    # Smart Crop Logic
+                    w, h = original_clip.size
+                    if w/h > 1080/1920:
+                        visual_clip = original_clip.with_effects([vfx.Resize(height=1920)])
+                        visual_clip = visual_clip.with_effects([vfx.Crop(width=1080, height=1920, x_center=visual_clip.w/2)])
                     else:
-                        visual_clip = visual_clip.subclipped(0, duration)
-                    visual_clip = visual_clip.with_effects([vfx.Resize(new_size=self.target_resolution)])
+                        visual_clip = original_clip.with_effects([vfx.Resize(width=1080)])
+                        visual_clip = visual_clip.with_effects([vfx.Crop(width=1080, height=1920, y_center=visual_clip.h/2)])
+                        
+                elif media_path.endswith(('.mp4', '.mov')):
+                    original_clip = VideoFileClip(media_path)
+                    if original_clip.duration < duration:
+                        original_clip = original_clip.with_effects([vfx.Loop(duration=duration)])
+                    else:
+                        original_clip = original_clip.subclipped(0, duration)
+                    
+                    # Smart Crop Logic
+                    w, h = original_clip.size
+                    if w/h > 1080/1920:
+                        visual_clip = original_clip.with_effects([vfx.Resize(height=1920)])
+                        visual_clip = visual_clip.with_effects([vfx.Crop(width=1080, height=1920, x_center=visual_clip.w/2)])
+                    else:
+                         visual_clip = original_clip.with_effects([vfx.Resize(width=1080)])
+                         visual_clip = visual_clip.with_effects([vfx.Crop(width=1080, height=1920, y_center=visual_clip.h/2)])
             else:
                  visual_clip = ColorClip(size=self.target_resolution, color=(0,0,0), duration=duration)
 
             visual_clip = visual_clip.with_audio(audio_clip)
 
-            # 3. Scene-Based Subtitles
-            # Display the full script text for this scene at the bottom
+            # 3. Dynamic Subtitles (YouTube Shorts Style)
             captions = []
             
-            # Get the script text for this scene
-            script_text = scene.get('script', '')
-            
-            if script_text:
+            if subs_path and os.path.exists(subs_path):
                 try:
-                    # Create subtitle with the full script text
-                    subtitle = TextClip(
-                        text=script_text,
-                        font_size=60,
-                        color='white',
-                        font=self.font,
-                        stroke_color='black',
-                        stroke_width=4,
-                        size=(self.target_resolution[0] - 120, None),  # Leave margins
-                        method='caption',
-                        align='center'
-                    )
-                    # Position at bottom with safe margin (Y=1500 leaves ~420px from bottom)
-                    subtitle = subtitle.with_position(('center', 1500)).with_duration(duration)
-                    captions.append(subtitle)
-                except Exception as e:
-                    print(f"   ⚠️ Subtitle Error: {e}")
+                    with open(subs_path, 'r') as f:
+                        processed_subs = json.load(f)
+                    
+                    for sub in processed_subs:
+                        word = sub['word']
+                        start = sub['start']
+                        end = sub['end']
+                        duration_sub = end - start
+                        
+                        if duration_sub < 0.1: duration_sub = 0.1
 
-            # 4. Fallback / Emphasis Text Overlay (from Agent)
-            # If the user requested a specific "Text Overlay" in the prompt, let's show it 
-            # as a Title at the top, separate from captions.
+                        txt_clip = TextClip(
+                            text=word.upper(), 
+                            font_size=105, 
+                            color='yellow', 
+                            font=self.font_bold, 
+                            stroke_color='black', 
+                            stroke_width=5, 
+                            size=(1000, None), 
+                            method='caption',
+                            align='center'
+                        )
+                        txt_clip = txt_clip.with_start(start).with_duration(duration_sub).with_position('center')
+                        captions.append(txt_clip)
+                        
+                except Exception as e:
+                    print(f"   ⚠️ Subtitle JSON Error: {e}")
+
+            # 4. Emphasis Text Overlay (from Agent)
             top_overlay = scene.get('text_overlay', "")
             if top_overlay:
                  try:
                     title_clip = TextClip(
-                        text=top_overlay,
+                        text=top_overlay.upper(),
                         font_size=90, 
                         color='white', 
-                        font=self.font,
+                        font=self.font_bold,
                         stroke_color='black',
-                        stroke_width=4,
+                        stroke_width=6,
                         size=(self.target_resolution[0] - 100, None),
-                        method='caption'
+                        method='caption',
+                        align='center'
                     )
                     title_clip = title_clip.with_position(('center', 200)).with_duration(duration)
                     captions.append(title_clip)
