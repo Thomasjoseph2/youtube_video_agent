@@ -107,21 +107,39 @@ class VideoOrchestrator:
             
             # 7. Library
             log("📚 Library: Saving record...")
+            # Store only Cloudinary URL, not local path since we'll delete it
             video_record = {
                 "id": session_id,
                 "prompt": user_prompt,
-                "local_path": final_video_path,
                 "cloudinary_url": cloud_url,
                 "timestamp": timestamp,
                 "timeline": timeline 
             }
             self.library.add_entry(video_record)
 
-            # 8. Cleanup
-            log("🧹 Cleanup: Removing temp files...")
-            shutil.rmtree(temp_dir)
+            # 8. Cleanup - Keep server lightweight!
+            log("🧹 Cleanup: Removing temp and result files...")
             
-            log("✨ Video Creation Complete!")
+            # Remove temp directory (fetched videos, audio files, etc.)
+            if os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir)
+                log("   ✓ Removed temp directory")
+            
+            # Remove result directory (final video is now on Cloudinary)
+            if os.path.exists(result_dir):
+                shutil.rmtree(result_dir)
+                log("   ✓ Removed result directory (video on Cloudinary)")
+            
+            # Clean up media directory (fetched stock videos)
+            media_dir = os.path.join(self.base_dir, "media")
+            if os.path.exists(media_dir):
+                for file in os.listdir(media_dir):
+                    file_path = os.path.join(media_dir, file)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                log("   ✓ Cleaned up media directory")
+            
+            log("✨ Video Creation Complete! (Video saved to Cloudinary)")
             return video_record
 
         except Exception as e:
