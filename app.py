@@ -39,7 +39,13 @@ def main():
                     
                     col1, col2 = st.columns([1, 1])
                     with col1:
-                        st.video(result['local_path'])
+                        # Display video from Cloudinary if local is cleaned up
+                        if result.get('local_path') and os.path.exists(result['local_path']):
+                            st.video(result['local_path'])
+                        elif result.get('cloudinary_url'):
+                            st.video(result['cloudinary_url'])
+                        else:
+                            st.warning("Video processing complete but playback unavailable.")
                     with col2:
                         st.json(result['timeline'])
                         if result.get('cloudinary_url'):
@@ -63,10 +69,14 @@ def main():
                 with st.expander(f"{vid['timestamp']} - {vid.get('prompt', '')[:50]}..."):
                     c1, c2 = st.columns([1, 2])
                     with c1:
-                        if os.path.exists(vid['local_path']):
-                            st.video(vid['local_path'])
+                        # Try local first, fallback to Cloudinary
+                        local_path = vid.get('local_path')
+                        if local_path and os.path.exists(local_path):
+                            st.video(local_path)
+                        elif vid.get('cloudinary_url'):
+                            st.video(vid['cloudinary_url'])
                         else:
-                            st.warning("Local file missing.")
+                            st.warning("Video unavailable (local deleted, no cloud backup).")
                     with c2:
                          st.write(f"**ID:** {vid['id']}")
                          st.write(f"**Prompt:** {vid['prompt']}")
