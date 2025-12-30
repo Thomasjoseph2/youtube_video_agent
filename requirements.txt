@@ -1,0 +1,11 @@
+moviepy
+requests
+python-dotenv
+google-generativeai
+gTTS
+langchain
+langchain-google-genai
+langgraph
+edge-tts
+streamlit
+cloudinary

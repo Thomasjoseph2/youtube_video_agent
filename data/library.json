@@ -1,0 +1,272 @@
+[
+  {
+    "id": "20251229_120421_create_a_youtube_short_video",
+    "prompt": "Create a YouTube Short video (Vertical 9:16) titled \"3 Secret Dog Meanings\".\n\nTarget Audience: Dog owners. Total Duration: Less than 60 seconds. Voiceover: Energetic, fast-paced American Male. Pacing: Very fast cuts (every 2-3 seconds). Text Overlays: Use big, bold text in the center for the key facts.\n\nScript and Visual Instructions:\n\n[0:00-0:05] Hook Visuals: Fast montage: A dog spinning in circles, then a dog looking cute. Text Overlay: \"3 WEIRD DOG SECRETS\". Script: \"Here are three things your dog does that seem weird, but actually have a secret meaning.\"\n\n[0:05-0:20] Behavior 1: The Poop Compass Visuals: A dog spinning in circles on the grass. Text Overlay: \"THE POOP COMPASS\". Script: \"Number one: The Spin. Why do they spin before they poop? Science says dogs prefer to align their bodies with the Earth's North-South magnetic axis. Yes, your dog is a furry compass.\"\n\n[0:20-0:35] Behavior 2: The Lean Visuals: A dog sitting on a person's feet or leaning heavy against their leg. Text Overlay: \"THE HUG\". Script: \"Number two: The Lean. If your dog sits on your feet or leans against you, they aren't trying to trip you. This is the dog version of a hug. They are saying, 'I feel safe with you.'\"\n\n[0:35-0:50] Behavior 3: Head Pressing (Warning) Visuals: A dog pressing its head firmly against a wall (use a serious/static image if possible). Text Overlay: \"WARNING SIGN \u26a0\ufe0f\". Script: \"Number three is serious. If you see your dog pressing their head against a wall like this, it\u2019s not cute. It can be a sign of toxic poisoning or brain damage. Get to a vet immediately.\"\n\n[0:50-0:60] Outro Visuals: Happy dog running. Text Overlay: \"Subscribe for more!\". Script: \"Does your dog do these? Subscribe for more animal secrets!\"",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_120421_create_a_youtube_short_video/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766990430/dog_videos/20251229_120421_create_a_youtube_short_video.mp4",
+    "timestamp": "20251229_120421",
+    "timeline": [
+      {
+        "visual_query": "dog spinning in circles happy energetic",
+        "text_overlay": "3 WEIRD DOG SECRETS",
+        "script": "Here are three things your dog does that seem weird,",
+        "duration": 2
+      },
+      {
+        "visual_query": "cute dog close up looking curious",
+        "text_overlay": "3 WEIRD DOG SECRETS",
+        "script": "but actually have a secret meaning.",
+        "duration": 3
+      },
+      {
+        "visual_query": "dog spinning before pooping grass field",
+        "text_overlay": "THE POOP COMPASS",
+        "script": "Number one: The Spin. Why do they spin before they poop?",
+        "duration": 3
+      },
+      {
+        "visual_query": "dog sniffing ground turning around scientific",
+        "text_overlay": "THE POOP COMPASS",
+        "script": "Science says dogs prefer to align their bodies with the Earth's North-South magnetic axis.",
+        "duration": 5
+      },
+      {
+        "visual_query": "dog focused on grass after spinning",
+        "text_overlay": "THE POOP COMPASS",
+        "script": "Yes, your dog is a furry compass.",
+        "duration": 7
+      },
+      {
+        "visual_query": "dog sitting on owner's feet affection",
+        "text_overlay": "THE HUG",
+        "script": "Number two: The Lean. If your dog sits on your feet or leans against you,",
+        "duration": 4
+      },
+      {
+        "visual_query": "dog leaning against person's leg happy",
+        "text_overlay": "THE HUG",
+        "script": "they aren't trying to trip you. This is the dog version of a hug.",
+        "duration": 5
+      },
+      {
+        "visual_query": "owner petting dog leaning on leg loving",
+        "text_overlay": "THE HUG",
+        "script": "They are saying, 'I feel safe with you.'",
+        "duration": 6
+      },
+      {
+        "visual_query": "dog head pressing firmly against wall serious static",
+        "text_overlay": "WARNING SIGN \u26a0\ufe0f",
+        "script": "Number three is serious. If you see your dog pressing their head against a wall like this, it\u2019s not cute.",
+        "duration": 7
+      },
+      {
+        "visual_query": "worried dog face close up veterinarian clinic",
+        "text_overlay": "WARNING SIGN \u26a0\ufe0f",
+        "script": "It can be a sign of toxic poisoning or brain damage. Get to a vet immediately.",
+        "duration": 8
+      },
+      {
+        "visual_query": "happy dog running in park slow motion",
+        "text_overlay": "SUBSCRIBE FOR MORE!",
+        "script": "Does your dog do these? Subscribe for more animal secrets!",
+        "duration": 10
+      }
+    ]
+  },
+  {
+    "id": "20251229_121859_can_you_create_a_video_about_3",
+    "prompt": "can you create a video about 3 facts about golden retriever and use only golder retriver images and videos for this it should be a 1 minute video is it possible for you \n",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_121859_can_you_create_a_video_about_3/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766991210/dog_videos/20251229_121859_can_you_create_a_video_about_3.mp4",
+    "timestamp": "20251229_121859",
+    "timeline": [
+      {
+        "visual_query": "happy golden retriever running in slow motion, close up",
+        "text_overlay": "3 GOLDEN FACTS!",
+        "script": "Did you know these amazing facts about Golden Retrievers? Get ready to learn something new about these lovable dogs!",
+        "duration": 7
+      },
+      {
+        "visual_query": "golden retriever retrieving a duck from water, scottish landscape background",
+        "text_overlay": "SCOTTISH ROOTS",
+        "script": "Originally bred in Scotland in the mid-19th century, Golden Retrievers were developed as exceptional gundogs. Their job was to retrieve waterfowl and game for hunters, even in harsh conditions and cold water.",
+        "duration": 17
+      },
+      {
+        "visual_query": "golden retriever gently holding an egg in its mouth, close up",
+        "text_overlay": "GENTLE MOUTH",
+        "script": "They possess a remarkable 'soft mouth'\u2014a trait carefully bred into them. This allows them to carry retrieved items, even delicate ones like an egg, without causing any damage. Their gentleness is truly legendary!",
+        "duration": 17
+      },
+      {
+        "visual_query": "golden retriever performing a trick, golden retriever as a service dog",
+        "text_overlay": "SUPER SMART!",
+        "script": "Golden Retrievers are renowned for their high intelligence and eagerness to please. This makes them incredibly trainable, excelling in obedience, agility, and as invaluable service or therapy dogs.",
+        "duration": 14
+      },
+      {
+        "visual_query": "cute golden retriever puppy playing with a toy",
+        "text_overlay": "LOVE GOLDENS?",
+        "script": "Aren't Golden Retrievers just incredible? Share your favorite Golden fact in the comments below! Don't forget to like and subscribe!",
+        "duration": 5
+      }
+    ]
+  },
+  {
+    "id": "20251229_123526_can_you_create_a_video_about_3",
+    "prompt": "can you create a video about 3 facts about golden retriever and use only golder retriver images and videos for this it should be a 1 minute video is it possible for you",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_123526_can_you_create_a_video_about_3/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766992648/dog_videos/20251229_123526_can_you_create_a_video_about_3.mp4",
+    "timestamp": "20251229_123526",
+    "timeline": [
+      {
+        "visual_query": "Golden Retriever dog running playful",
+        "text_overlay": "GOLDEN FACTS!",
+        "script": "Thinking about a Golden Retriever? Here are 3 amazing facts you NEED to know!",
+        "duration": 7
+      },
+      {
+        "visual_query": "Golden Retriever dog performing trick",
+        "text_overlay": "SUPER SMART!",
+        "script": "Fact one: Golden Retrievers are incredibly intelligent, ranking among the top breeds for obedience and working intelligence.",
+        "duration": 15
+      },
+      {
+        "visual_query": "Golden Retriever dog gentle interaction",
+        "text_overlay": "LOVING HEARTS!",
+        "script": "Fact two: Known for their gentle and friendly disposition, Goldens are excellent family pets and get along well with everyone!",
+        "duration": 15
+      },
+      {
+        "visual_query": "Golden Retriever dog retrieving soft toy",
+        "text_overlay": "SOFT MOUTH!",
+        "script": "Fact three: Their original purpose was to retrieve downed fowl with a 'soft mouth,' meaning they can carry objects without damaging them, even a raw egg!",
+        "duration": 15
+      },
+      {
+        "visual_query": "Golden Retriever dog happy close up",
+        "text_overlay": "FOLLOW FOR MORE!",
+        "script": "Goldens truly are golden! Like and follow for more amazing dog facts!",
+        "duration": 8
+      }
+    ]
+  },
+  {
+    "id": "20251229_131221_can_you_create_a_video_about_a",
+    "prompt": "can you create a video about a youtube short video about why dogs swings their tales when they see their loved once",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_131221_can_you_create_a_video_about_a/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766995212/dog_videos/20251229_131221_can_you_create_a_video_about_a.mp4",
+    "timestamp": "20251229_131221",
+    "timeline": [
+      {
+        "visual_query": "dog wagging tail excitedly",
+        "text_overlay": "WHY THE WAG?",
+        "script": "Ever notice your dog's tail go wild when they see you?",
+        "duration": 2
+      },
+      {
+        "visual_query": "dog looking alert happy",
+        "text_overlay": "MORE THAN HAPPY",
+        "script": "It's not just pure happiness! Tail wags are a complex form of dog communication.",
+        "duration": 3
+      },
+      {
+        "visual_query": "dog wagging tail close up",
+        "text_overlay": "SIGNALING JOY",
+        "script": "A wag, especially to the right, often signals positive feelings and approachability.",
+        "duration": 3
+      },
+      {
+        "visual_query": "dog excitedly greeting owner",
+        "text_overlay": "SEEING YOU!",
+        "script": "When they see their loved ones, this specific wag communicates affection and excitement.",
+        "duration": 3
+      },
+      {
+        "visual_query": "dog happy calm looking at camera",
+        "text_overlay": "LOVE HORMONE",
+        "script": "Their brain releases oxytocin, the 'love hormone,' which fuels that joyful, rapid wag!",
+        "duration": 4
+      },
+      {
+        "visual_query": "dog happy panting smiling",
+        "text_overlay": "PURE LOVE",
+        "script": "It's their adorable way of saying: 'I missed you, and I'm SO happy you're here!'",
+        "duration": 3
+      }
+    ]
+  },
+  {
+    "id": "20251229_141400_can_you_make_a_10_secong_video",
+    "prompt": "can you make a 10 secong video about golden retriver",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_141400_can_you_make_a_10_secong_video/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766998119/dog_videos/20251229_141400_can_you_make_a_10_secong_video.mp4",
+    "timestamp": "20251229_141400",
+    "timeline": [
+      {
+        "visual_query": "Golden Retriever close up happy face dog",
+        "text_overlay": "Golden Retriever",
+        "script": "Meet the Golden Retriever! A breed renowned for its captivating charm.",
+        "duration": 2
+      },
+      {
+        "visual_query": "Golden Retriever running in park dog",
+        "text_overlay": "Energetic!",
+        "script": "They're bundles of joy with endless energy, always ready for adventure.",
+        "duration": 3
+      },
+      {
+        "visual_query": "Golden Retriever looking attentive dog",
+        "text_overlay": "Smart & Loyal",
+        "script": "Intelligent, eager to please, and incredibly loyal\u2014making them perfect family members.",
+        "duration": 3
+      },
+      {
+        "visual_query": "Golden Retriever laying down happy dog",
+        "text_overlay": "Pure Love",
+        "script": "Discover the pure heart of a Golden Retriever!",
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "20251229_142344_can_you_make_a_10_secong_video",
+    "prompt": "can you make a 10 secong video about golden retriver",
+    "local_path": "/home/toobler/Desktop/invideo clone/data/results/20251229_142344_can_you_make_a_10_secong_video/final.mp4",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1766999091/dog_videos/20251229_142344_can_you_make_a_10_secong_video.mp4",
+    "timestamp": "20251229_142344",
+    "timeline": [
+      {
+        "visual_query": "Golden Retriever happy face dog",
+        "text_overlay": "GOLDEN RETRIEVERS",
+        "script": "Meet the Golden Retriever! Famous for their stunning looks...",
+        "duration": 2
+      },
+      {
+        "visual_query": "Golden Retriever running park dog",
+        "text_overlay": "FULL OF JOY",
+        "script": "...and their boundless energy!",
+        "duration": 2
+      },
+      {
+        "visual_query": "Golden Retriever playing fetch dog",
+        "text_overlay": "LOVES TO PLAY",
+        "script": "They're natural retrievers, always up for a game of fetch.",
+        "duration": 3
+      },
+      {
+        "visual_query": "Golden Retriever calm dog",
+        "text_overlay": "GENTLE SOULS",
+        "script": "Known for their gentle, friendly nature, making them ideal companions.",
+        "duration": 2
+      },
+      {
+        "visual_query": "Happy Golden Retriever dog",
+        "text_overlay": "PURE GOLD",
+        "script": "Truly pure gold, inside and out!",
+        "duration": 1
+      }
+    ]
+  }
+]
