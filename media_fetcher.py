@@ -5,6 +5,7 @@ import time
 from typing import List, Optional
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+from duckduckgo_search import DDGS
 
 class MediaFetcher:
     def __init__(self):
@@ -36,7 +37,7 @@ class MediaFetcher:
 
     def download_media(self, search_terms: List[str], target_dir: str, max_items: int = 1) -> List[str]:
         """
-        Smart download: Searches Pexels (Videos+Images), VERIFIES content with Gemini, then downloads.
+        Smart download: Searches Pexels/Web, VERIFIES content with Gemini, then downloads.
         """
         downloaded_files = []
         os.makedirs(target_dir, exist_ok=True)
@@ -44,16 +45,19 @@ class MediaFetcher:
         for term in search_terms:
             print(f"   🔍 Searching for: '{term}'")
             
-            # 1. Gather Candidates (Videos + Images)
+            # 1. Gather Candidates
             candidates = []
             
-            # Pexels Videos
+            # A. Pexels Videos (Best Motion)
             candidates.extend(self._search_pexels_videos(term))
             
-            # Pexels Images (Fallback/Mix)
+            # B. Web Search Images (Best Relevance - DDG)
+            candidates.extend(self._search_ddg_images(term))
+            
+            # C. Pexels Images (High Quality Stock)
             candidates.extend(self._search_pexels_images(term))
             
-            # Pixabay Videos (Fallback)
+            # D. Pixabay Videos (Fallback)
             if len(candidates) < 5 and self.pixabay_key:
                  candidates.extend(self._search_pixabay_candidates(term))
             
@@ -64,7 +68,7 @@ class MediaFetcher:
                 ext = ".mp4" if cand['type'] == 'video' else ".jpg"
                 filename = f"{term[:10].replace(' ', '_')}_{cand['id']}{ext}"
                 
-                # Check if file already exists locally to skip verification if possible
+                # Check if file already exists
                 filepath = os.path.join(target_dir, filename)
                 if os.path.exists(filepath):
                     downloaded_files.append(filepath)
@@ -74,8 +78,10 @@ class MediaFetcher:
                 # Verification
                 if self.vision_model:
                     print(f"      👁️ Verifying candidate {cand['id']} ({cand['type']})...")
+                    # Use 'image' (thumbnail) for verification to save bandwidth/time
                     if self._verify_content(cand['image'], term):
                         print("      ✅ Match confirmed!")
+                        # Download using the download_url
                         filepath = self._download_file(cand['download_url'], filename, target_dir)
                         if filepath:
                             downloaded_files.append(filepath)
@@ -93,17 +99,15 @@ class MediaFetcher:
             
             if not found_match:
                  print(f"   ⚠️ No suitable media found for '{term}' after verification.")
-                 downloaded_files.append(None) # Marker for assembler
+                 downloaded_files.append(None) 
 
         return downloaded_files
 
     def _verify_content(self, image_url: str, query: str) -> bool:
         """
-        Uses Gemini Vision to verify content. 
         Fail-Open on Rate Limit / Safety Blocks.
         """
         try:
-            # Construct a prompt for the vision model
             prompt = f"""Look at this image. 
             Does it accurately depict: "{query}"?
             Strict Rules: Answer ONLY 'YES' or 'NO'."""
@@ -123,17 +127,43 @@ class MediaFetcher:
                 
             return "YES" in result
         except Exception as e:
-            # Handle Quota Exceeded (429) gracefully to prevent crash
             err_str = str(e)
             if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
                 print(f"      ⚠️ Quota Exceeded for Verification. Defaulting to MATCH.")
-                return True # Fail Open: Assume it matches so we don't break the user flow
+                return True
             
             print(f"      Verify Error: {e}")
             return True # Fail Open
 
+    def _search_ddg_images(self, query: str) -> List[dict]:
+        """Scrapes DuckDuckGo for images (High Relevance)"""
+        results = []
+        try:
+            # Use 'safesearch="off"' or "moderate" based on preference. 
+            # We want broad results, Gemini filters safety anyway.
+            with DDGS() as ddgs:
+                ddg_results = ddgs.images(
+                    query, 
+                    region="wt-wt", 
+                    safesearch="moderate", 
+                    max_results=10
+                )
+                for res in ddg_results:
+                    img_url = res.get('image')
+                    thumb = res.get('thumbnail')
+                    if img_url:
+                        results.append({
+                            # Use a hash or random ID
+                            'id': f"ddg_{random.randint(10000,99999)}",
+                            'type': 'image',
+                            'download_url': img_url,
+                            'image': thumb or img_url 
+                        })
+        except Exception as e:
+            print(f"      DDG Error: {e}")
+        return results
+
     def _search_pexels_videos(self, query: str) -> List[dict]:
-        """Returns list of {id, type='video', download_url, image}"""
         if not self.pexels_key: return []
         results = []
         url = f"https://api.pexels.com/videos/search?query={query}&per_page=10&orientation=portrait"
@@ -154,7 +184,6 @@ class MediaFetcher:
         return results
 
     def _search_pexels_images(self, query: str) -> List[dict]:
-        """Returns list of {id, type='image', download_url, image}"""
         if not self.pexels_key: return []
         results = []
         url = f"https://api.pexels.com/v1/search?query={query}&per_page=10&orientation=portrait"
@@ -172,9 +201,8 @@ class MediaFetcher:
                     })
         except Exception: pass
         return results
-
+        
     def _search_pixabay_candidates(self, query: str) -> List[dict]:
-        """Returns list of {id, type='video', download_url, image}"""
         if not self.pixabay_key: return []
         results = []
         url = f"https://pixabay.com/api/videos/?key={self.pixabay_key}&q={query}&per_page=15&orientation=vertical"
@@ -199,10 +227,16 @@ class MediaFetcher:
     def _download_file(self, url: str, filename: str, target_dir: str) -> str:
         filepath = os.path.join(target_dir, filename)
         if os.path.exists(filepath): return filepath
+        # User-Agent header is important for some sites (DDG results)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
         try:
-            r = requests.get(url, stream=True)
+            r = requests.get(url, headers=headers, stream=True, timeout=10)
             r.raise_for_status()
             with open(filepath, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192): f.write(chunk)
             return filepath
-        except Exception: return None
+        except Exception as e: 
+            print(f"      Download Error ({url[:30]}...): {e}")
+            return None
