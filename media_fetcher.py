@@ -5,7 +5,7 @@ import time
 from typing import List, Optional
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 class MediaFetcher:
     def __init__(self):

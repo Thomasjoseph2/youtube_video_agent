@@ -9,4 +9,5 @@ langgraph
 edge-tts
 streamlit
 cloudinary
-duckduckgo-search
+ddgs
+Brotli
