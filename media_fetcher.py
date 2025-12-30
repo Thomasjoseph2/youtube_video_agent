@@ -5,7 +5,7 @@ import time
 from typing import List, Optional
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
 
 class MediaFetcher:
     def __init__(self):
@@ -26,10 +26,10 @@ class MediaFetcher:
                 model="gemini-2.5-flash", 
                 temperature=0,
                 safety_settings={
-                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                    "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE",
+                    "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
+                    "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
+                    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE",
                 }
             )
         else:
