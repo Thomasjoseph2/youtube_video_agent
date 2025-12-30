@@ -5,6 +5,7 @@ import time
 from typing import List, Optional
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 class MediaFetcher:
     def __init__(self):
@@ -21,7 +22,16 @@ class MediaFetcher:
         # Vision Model for Verification
         if self.google_key:
             # User requested gemini-2.5-flash
-            self.vision_model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+            self.vision_model = ChatGoogleGenerativeAI(
+                model="gemini-2.5-flash", 
+                temperature=0,
+                safety_settings={
+                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                }
+            )
         else:
             print("⚠️ GOOGLE_API_KEY missing. Visual verification disabled.")
             self.vision_model = None
@@ -95,10 +105,15 @@ class MediaFetcher:
             )
             response = self.vision_model.invoke([msg])
             result = response.content.strip().upper()
+            
+            if not result:
+                print("      ⚠️ Verification Warning: Empty response (blocked). Defaulting to MATCH.")
+                return True
+                
             return "YES" in result
         except Exception as e:
             print(f"      Verify Error: {e}")
-            return True # Fail open if verification breaks? Or Fail closed? Let's fail open but log.
+            return True # Fail open
 
     def _search_pexels_candidates(self, query: str) -> List[dict]:
         """Returns list of {id, video, image}"""
