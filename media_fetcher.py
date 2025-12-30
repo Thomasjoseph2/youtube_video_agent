@@ -38,8 +38,10 @@ class MediaFetcher:
     def download_media(self, search_terms: List[str], target_dir: str, max_items: int = 1) -> List[str]:
         """
         Smart download: Searches Pexels/Web, VERIFIES content with Gemini, then downloads.
+        Prevents duplicate media usage within the same session.
         """
         downloaded_files = []
+        seen_media_ids = set()  # Track used IDs to prevent duplicates
         os.makedirs(target_dir, exist_ok=True)
         
         for term in search_terms:
@@ -64,6 +66,11 @@ class MediaFetcher:
             # 2. Verify and Download
             found_match = False
             for cand in candidates:
+                # Skip duplicates
+                if cand['id'] in seen_media_ids:
+                    print(f"      ⏭️ Skipping duplicate candidate {cand['id']}...")
+                    continue
+                
                 # Determine extension based on type
                 ext = ".mp4" if cand['type'] == 'video' else ".jpg"
                 filename = f"{term[:10].replace(' ', '_')}_{cand['id']}{ext}"
@@ -72,6 +79,7 @@ class MediaFetcher:
                 filepath = os.path.join(target_dir, filename)
                 if os.path.exists(filepath):
                     downloaded_files.append(filepath)
+                    seen_media_ids.add(cand['id'])  # Mark as used
                     found_match = True
                     break
 
@@ -85,6 +93,7 @@ class MediaFetcher:
                         filepath = self._download_file(cand['download_url'], filename, target_dir)
                         if filepath:
                             downloaded_files.append(filepath)
+                            seen_media_ids.add(cand['id'])  # Mark as used
                             found_match = True
                             break
                     else:
@@ -94,6 +103,7 @@ class MediaFetcher:
                     filepath = self._download_file(cand['download_url'], filename, target_dir)
                     if filepath:
                         downloaded_files.append(filepath)
+                        seen_media_ids.add(cand['id'])  # Mark as used
                         found_match = True
                         break
             
@@ -105,12 +115,29 @@ class MediaFetcher:
 
     def _verify_content(self, image_url: str, query: str) -> bool:
         """
+        Enhanced verification for creator-grade accuracy.
+        Checks BOTH subject (breed) AND action matching.
         Fail-Open on Rate Limit / Safety Blocks.
         """
         try:
-            prompt = f"""Look at this image. 
-            Does it accurately depict: "{query}"?
-            Strict Rules: Answer ONLY 'YES' or 'NO'."""
+            # Extract subject and action from query for precise verification
+            # Example: "Belgian Malinois running" -> subject: "Belgian Malinois", action: "running"
+            prompt = f"""Analyze this image carefully.
+            
+Query: "{query}"
+            
+Verification Tasks:
+            1. If the query mentions a specific dog breed (e.g., "Belgian Malinois", "Golden Retriever"), 
+               verify the image shows EXACTLY that breed, not just any dog.
+            2. If the query describes an action (e.g., "running", "sitting", "staring"), 
+               verify the subject is performing that action.
+            3. Answer ONLY 'YES' if BOTH the subject AND action match accurately.
+            4. Answer 'NO' if:
+               - Wrong breed/subject (e.g., German Shepherd instead of Belgian Malinois)
+               - Wrong action (e.g., sitting instead of running)
+               - Contains unwanted elements (humans when not requested)
+            
+Answer: YES or NO"""
             
             msg = HumanMessage(
                 content=[
@@ -175,7 +202,7 @@ class MediaFetcher:
                     files = sorted(v['video_files'], key=lambda x: x['width'] * x['height'], reverse=True)
                     if files:
                         results.append({
-                            'id': v['id'],
+                            'id': f"pexels_vid_{v['id']}",  # Prefix with source
                             'type': 'video',
                             'download_url': files[0]['link'],
                             'image': v['image'] 
@@ -194,7 +221,7 @@ class MediaFetcher:
                 for photo in data.get('photos', []):
                     img_url = photo['src']['large']
                     results.append({
-                        'id': photo['id'],
+                        'id': f"pexels_img_{photo['id']}",  # Prefix with source
                         'type': 'image',
                         'download_url': img_url,
                         'image': img_url 
@@ -216,7 +243,7 @@ class MediaFetcher:
                          pic_id = v.get('picture_id')
                          thumb = f"https://i.vimeocdn.com/video/{pic_id}_295x166.jpg"
                          results.append({
-                            'id': v['id'],
+                            'id': f"pixabay_{v['id']}",  # Prefix with source
                             'type': 'video',
                             'download_url': vid_url,
                             'image': thumb

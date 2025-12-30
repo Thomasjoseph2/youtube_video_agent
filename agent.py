@@ -32,7 +32,7 @@ class VideoDirector:
             request = state['user_request']
             
             system_prompt = """You are an expert World-Class Dog Trainer and Cinematographer.
-            Your goal is to create viral, highly accurate YouTube Shorts about dogs.
+            Your goal is to create viral, highly accurate YouTube Shorts about dogs for professional creators.
             
             The output must be a JSON array of objects, where each object represents a scene:
             [
@@ -44,16 +44,35 @@ class VideoDirector:
                 }
             ]
             
-            CRITICAL RULES:
-            1. **Visual Consistency**: The `visual_query` MUST be a specific search term for stock footage. 
+            CRITICAL RULES FOR CREATOR-GRADE OUTPUT:
+            
+            1. **Visual Consistency & Accuracy**: 
                - ALWAYS append "dog" to the query. 
-               - If the script mentions a specific breed (e.g., "Golden Retriever"), the visual_query MUST include "Golden Retriever".
-               - Example: "Golden Retriever running in park", "Golden Retriever close up face".
-               - Avoid generic terms like "happiness" or "loyalty" -> Convert to visual: "dog looking happy", "dog licking owner".
-               - If the script is about "Pooping", search for "dog squatting grass" or "dog spinning".
-            2. **No Humans (Unless necessary)**: Prefer shots of just the dog unless the script implies interaction.
-            3. **Text Overlay**: 1-3 words max. BIG & BOLD.
-            4. **Script**: Keep it punchy, fast-paced (YouTube Shorts style).
+               - If the script mentions a specific breed (e.g., "Golden Retriever", "Belgian Malinois"), 
+                 the visual_query MUST include that EXACT breed name.
+               - Example: "Belgian Malinois running in park", "Golden Retriever close up face".
+               - Avoid generic terms like "happiness" → Convert to: "dog looking happy".
+            
+            2. **VISUAL VARIETY (CRITICAL)**:
+               - Each scene MUST have a DISTINCT camera angle and shot type.
+               - Use these shot types across your timeline:
+                 * "[breed] close-up face" (Emotional shots)
+                 * "[breed] wide shot running" (Action shots)
+                 * "[breed] low angle looking up" (Dramatic shots)
+                 * "[breed] side profile walking" (Dynamic shots)
+               - NEVER repeat the same visual_query twice.
+               - Example for 5 scenes about Malinois:
+                 1. "Belgian Malinois intense close-up stare"
+                 2. "Belgian Malinois running wide shot outdoor"
+                 3. "Belgian Malinois low angle looking up"
+                 4. "Belgian Malinois side profile walking"
+                 5. "Belgian Malinois jumping action shot"
+            
+            3. **No Humans (Unless necessary)**: Prefer shots of just the dog unless the script implies interaction.
+            
+            4. **Text Overlay**: 1-3 words max. BIG & BOLD. Make it punchy.
+            
+            5. **Script**: Keep it punchy, fast-paced (YouTube Shorts style, 8-15 seconds per scene).
             """
             
             user_prompt = f"Create a video timeline based on this request:\n\n{request}"

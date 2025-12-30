@@ -268,5 +268,61 @@
         "duration": 1
       }
     ]
+  },
+  {
+    "id": "20251230_131705_can_you_generate_a_video_short",
+    "prompt": "can you generate a video shorts video and it should go viral the content should be why belgium malinois is not a good breed for first time dog owners ",
+    "cloudinary_url": "https://res.cloudinary.com/djbmxq29r/video/upload/v1767081334/dog_videos/20251230_131705_can_you_generate_a_video_short.mp4",
+    "timestamp": "20251230_131705",
+    "timeline": [
+      {
+        "visual_query": "Belgian Malinois dog intense stare",
+        "text_overlay": "MALINOIS?",
+        "script": "Thinking about a Belgian Malinois for your first dog?",
+        "duration": 2
+      },
+      {
+        "visual_query": "Belgian Malinois dog running fast",
+        "text_overlay": "HIGH ENERGY!",
+        "script": "These aren't your average couch potatoes. They're built for action!",
+        "duration": 2
+      },
+      {
+        "visual_query": "Belgian Malinois dog focused training",
+        "text_overlay": "INTENSE DRIVE!",
+        "script": "They have an intense working drive that needs a constant outlet.",
+        "duration": 2
+      },
+      {
+        "visual_query": "Belgian Malinois dog obedience training",
+        "text_overlay": "PRO TRAINING!",
+        "script": "Requires expert-level training, not just basic commands. You need to be a leader!",
+        "duration": 3
+      },
+      {
+        "visual_query": "Belgian Malinois dog doing puzzle toy",
+        "text_overlay": "MENTAL WORK!",
+        "script": "Without mental stimulation, they'll invent their own 'job'\u2014which often means destruction.",
+        "duration": 3
+      },
+      {
+        "visual_query": "Belgian Malinois dog alert posture",
+        "text_overlay": "SERIOUS DOG!",
+        "script": "They're not just pets; they're partners requiring serious commitment and consistent boundaries.",
+        "duration": 3
+      },
+      {
+        "visual_query": "Belgian Malinois dog handler training",
+        "text_overlay": "NOT FOR NOOBS!",
+        "script": "For first-time owners? You might be in over your head. This breed demands experience!",
+        "duration": 3
+      },
+      {
+        "visual_query": "Golden Retriever dog playing calmly",
+        "text_overlay": "CHOOSE WISELY!",
+        "script": "Consider a calmer, more forgiving breed first. Malinois demand mastery!",
+        "duration": 2
+      }
+    ]
   }
 ]
