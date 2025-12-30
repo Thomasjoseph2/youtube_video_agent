@@ -89,7 +89,7 @@ class VideoAssembler:
                             stroke_width=5, 
                             size=(1000, None), 
                             method='caption',
-                            align='center'
+                            text_align='center'
                         )
                         txt_clip = txt_clip.with_start(start).with_duration(duration_sub).with_position('center')
                         captions.append(txt_clip)
@@ -110,7 +110,7 @@ class VideoAssembler:
                         stroke_width=6,
                         size=(self.target_resolution[0] - 100, None),
                         method='caption',
-                        align='center'
+                        text_align='center'
                     )
                     title_clip = title_clip.with_position(('center', 200)).with_duration(duration)
                     captions.append(title_clip)
